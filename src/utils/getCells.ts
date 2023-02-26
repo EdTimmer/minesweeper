@@ -15,6 +15,7 @@ export const getCells = () => {
           isMine: false,
           isFlagged: false,
           mineCount: 0,
+          isCheckedForZeros: false,
         });
       }
     }
@@ -23,7 +24,7 @@ export const getCells = () => {
   const cellsArr = makeArr();
 
   // Mines
-  const mines = getRandomRange(0, 100, 10);
+  const mines = getRandomRange(0, 100, 14);
 
   // Add mines to cells
   mines.forEach((mine) => {

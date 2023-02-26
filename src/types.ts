@@ -6,4 +6,5 @@ export interface CellProps {
   isMine: boolean,
   isFlagged: boolean,
   mineCount: number,
+  isCheckedForZeros: boolean,
 }

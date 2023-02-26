@@ -1,52 +1,88 @@
 import { CellProps } from "../types";
 
 export const getZeroCells = (index: number, cellsArr: CellProps[]) => {
-  console.log('got zero cell at ' + index);
   const numOfColumns = 10;
-  const newArr = [...cellsArr]
+  const newArr = [...cellsArr];
+  let zerosArr: number[] = [];
 
-  const showAdjacentZeroCells = () => {
+  const showAdjacentZeroCells = (index: number) => {
     const cell = cellsArr[index];
     const isRowAbove = cell.row > 0;
     const isRowBelow = cell.row < 9;
     const isColumnToLeft = cell.column > 0;
     const isColumnToRight = cell.column < 9;
 
-    if (cellsArr[index].mineCount === 0) {
-      // top left
-      if (isRowAbove && isColumnToLeft && cellsArr[index - numOfColumns - 1].mineCount === 0 && !cellsArr[index - numOfColumns - 1]?.isMine) {
-        newArr[index - numOfColumns - 1].isHidden = false;
-      }
-      // top center
-      if (isRowAbove && cellsArr[index - numOfColumns].mineCount === 0 && !cellsArr[index - numOfColumns - 1]?.isMine) {
-        newArr[index - numOfColumns].isHidden = false;
-      }
-      // top right 
-      if (isRowAbove && isColumnToRight && cellsArr[index - numOfColumns + 1].mineCount === 0 && !cellsArr[index - numOfColumns - 1]?.isMine) {
-        newArr[index - numOfColumns + 1].isHidden = false;
-      }
-      // left  
-      if (isColumnToLeft && cellsArr[index - 1].mineCount === 0 && !cellsArr[index - numOfColumns - 1]?.isMine) {
-        newArr[index - 1].isHidden = false;
-      }
-      // right
-      if (isColumnToRight && cellsArr[index + 1].mineCount === 0 && !cellsArr[index - numOfColumns - 1]?.isMine) {
-        newArr[index + 1].isHidden = false;
-      }
-      // bottom left
-      if (isRowBelow && isColumnToLeft && cellsArr[index + numOfColumns - 1].mineCount === 0 && !cellsArr[index - numOfColumns - 1]?.isMine) {
-        newArr[index + numOfColumns - 1].isHidden = false;
-      }
-      // bottom center
-      if (isRowBelow && cellsArr[index + numOfColumns].mineCount === 0 && !cellsArr[index - numOfColumns - 1]?.isMine) {
-        newArr[index + numOfColumns].isHidden = false;
-      }
-      // bottom right
-      if (isRowBelow && isColumnToRight && cellsArr[index + numOfColumns + 1].mineCount === 0 && !cellsArr[index - numOfColumns - 1]?.isMine) {
-        newArr[index + numOfColumns + 1].isHidden = false;
+    const indTopLeft = index - numOfColumns - 1;
+    const indTopCenter = index - numOfColumns;
+    const indTopRight = index - numOfColumns + 1;
+    const indLeft = index - 1;
+    const indRight = index + 1;
+    const indBottomLeft = index + numOfColumns - 1;
+    const indBottomCenter = index + numOfColumns;
+    const indBottomRight = index + numOfColumns + 1;
+
+    const buildZerosArr = (index: number, cellsArr: CellProps[]) => {
+      if (cellsArr[index].mineCount === 0) {
+        zerosArr.push(index);
       }
     }
+
+    if (cellsArr[index].mineCount === 0 && !cellsArr[index].isMine) {
+      newArr[index].isCheckedForZeros = true;
+      // top left
+      if (isRowAbove && isColumnToLeft && !cellsArr[indTopLeft]?.isMine) {
+        newArr[indTopLeft].isHidden = false;
+        buildZerosArr(indTopLeft, cellsArr);
+      }
+      // top center
+      if (isRowAbove && !cellsArr[indTopCenter]?.isMine) {
+        newArr[indTopCenter].isHidden = false;
+        buildZerosArr(indTopCenter, cellsArr);
+      }
+      // top right 
+      if (isRowAbove && isColumnToRight && !cellsArr[indTopRight]?.isMine) {
+        newArr[indTopRight].isHidden = false;
+        buildZerosArr(indTopRight, cellsArr);
+      }
+      // left  
+      if (isColumnToLeft && !cellsArr[indLeft]?.isMine) {
+        newArr[indLeft].isHidden = false;
+        buildZerosArr(indLeft, cellsArr);
+      }
+      // right
+      if (isColumnToRight && !cellsArr[indRight]?.isMine) {
+        newArr[indRight].isHidden = false;
+        buildZerosArr(indRight, cellsArr);
+      }
+      // bottom left
+      if (isRowBelow && isColumnToLeft && !cellsArr[indBottomLeft]?.isMine) {
+        newArr[indBottomLeft].isHidden = false;
+        buildZerosArr(indBottomLeft, cellsArr);
+      }
+      // bottom center
+      if (isRowBelow && !cellsArr[indBottomCenter]?.isMine) {
+        newArr[indBottomCenter].isHidden = false;
+        buildZerosArr(indBottomCenter, cellsArr);
+      }
+      // bottom right
+      if (isRowBelow && isColumnToRight && !cellsArr[indBottomRight]?.isMine) {
+        newArr[indBottomRight].isHidden = false;
+        buildZerosArr(indBottomRight, cellsArr);
+      }
+    }
+
   }
-  showAdjacentZeroCells();
+  showAdjacentZeroCells(index);
+
+  // Recursion
+  let cycleArr = [...zerosArr];
+  zerosArr = [];
+  while (cycleArr.length) {
+    const arrEl = cycleArr.pop();
+    if (arrEl && !newArr[arrEl].isCheckedForZeros) {
+      getZeroCells(arrEl, newArr);
+    }    
+  }
+
   return newArr;
 }

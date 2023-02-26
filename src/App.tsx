@@ -26,6 +26,7 @@ function App() {
               isMine={cell.isMine}
               isFlagged={cell.isFlagged}
               mineCount={cell.mineCount}
+              isCheckedForZeros={cell.isCheckedForZeros}
             />
           );
         })}
