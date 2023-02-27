@@ -6,14 +6,11 @@ import { CellProps } from './types';
 
 function App() {
   const cells = useStore((state) => state.cells);
-  // const [cells, setCells] = useState(cellsData);
-  
-  // useEffect(()  => {
-  //   setCells(cellsData);
-  // }, [cellsData])
-  // console.log('cells', cells);
+  const reset = useStore((state) => state.reset);
+
   return (
     <Container>
+      <button onClick={reset} >Reset</button>
       <CellsWrapper>
         {cells.map((cell: CellProps, index: number) => {
           return (

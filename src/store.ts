@@ -9,11 +9,21 @@ interface MinesweeperState {
   showCell: (index: number) => void;
   flagCell: (index: number) => void;
   showEmptyCells: (index: number) => void;
+  reset: () => void;
 }
 
 const updateCell = (index: number, arr: CellProps[]) => {
   const newArr = [...arr];
-  newArr[index].isHidden = false;
+  if (newArr[index].isMine && !newArr[index].isFlagged) {
+    newArr.forEach(cell => {
+      if (cell.isMine) {
+        cell.isHidden = false
+      }
+    })
+  }
+  else {
+    newArr[index].isHidden = false;
+  }
   return newArr;
 }
 
@@ -26,6 +36,7 @@ const flagCell = (index: number, arr: CellProps[]) => {
 export const useStore = create<MinesweeperState>((set) => ({
   cells: getCells(),
   showCell: (index) => set((state) => ({ cells: updateCell(index, state.cells) })),
-  flagCell: (index) => set((state) => ({ cells: flagCell(index, state.cells) })),
+  flagCell: (index) => set((state) => ({ cells: flagCell(index, state.cells)})),
   showEmptyCells: (index) => set((state) => ({ cells: getZeroCells(index, state.cells) })),
+  reset: () => set(() => ({ cells: getCells()})),
 }))
