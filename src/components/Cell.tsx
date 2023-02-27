@@ -6,33 +6,33 @@ import mineBlack from '../icons/mine-black.png';
 import mineColors from '../icons/mine-colors.png';
 import { useState } from 'react';
 
-const Cell = ({
-  index,
-  isHidden,
-  isMine,
-  isFlagged,
-  mineCount,
-}: CellProps) => {
+const Cell = ({ index, isHidden, isMine, isFlagged, mineCount }: CellProps) => {
   const showCell = useStore((state) => state.showCell);
   const flagCell = useStore((state) => state.flagCell);
   const showEmptyCells = useStore((state) => state.showEmptyCells);
+  const isFinished = useStore((state) => state.isFinished);
+  const handleFinish = useStore((state) => state.handleFinish);
 
-  const [ isClickedMine, setIsClickedMine] = useState(false);
+  const [isClickedMine, setIsClickedMine] = useState(false);
+  console.log('isFinished', isFinished);
 
   const handleLeftClick = () => {
     if (isMine && !isFlagged && !isClickedMine) {
       setIsClickedMine(true);
+      handleFinish();
     }
     if (isFlagged) {
       return;
     }
-    showCell(index);
-    showEmptyCells(index);
+    if (!isFinished) {
+      showCell(index);
+      showEmptyCells(index);
+    }
   };
 
   const handleRightClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (isHidden && !isClickedMine) {
+    if (!isFinished && isHidden && !isClickedMine) {
       flagCell(index);
     }
   };

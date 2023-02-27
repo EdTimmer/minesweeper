@@ -6,15 +6,18 @@ import { getZeroCells } from './utils/getZeroCells';
 
 interface MinesweeperState {
   cells: CellProps[];
+  isFinished: boolean;
   showCell: (index: number) => void;
   flagCell: (index: number) => void;
   showEmptyCells: (index: number) => void;
   reset: () => void;
+  handleFinish: () => void;
 }
 
-const updateCell = (index: number, arr: CellProps[]) => {
+const updateCell = (index: number, arr: CellProps[], isFinished: boolean) => {
+
   const newArr = [...arr];
-  if (newArr[index].isMine && !newArr[index].isFlagged) {
+  if (newArr[index].isMine && !newArr[index].isFlagged && isFinished) {
     newArr.forEach(cell => {
       if (cell.isMine) {
         cell.isHidden = false
@@ -35,8 +38,10 @@ const flagCell = (index: number, arr: CellProps[]) => {
 
 export const useStore = create<MinesweeperState>((set) => ({
   cells: getCells(),
-  showCell: (index) => set((state) => ({ cells: updateCell(index, state.cells) })),
-  flagCell: (index) => set((state) => ({ cells: flagCell(index, state.cells)})),
+  isFinished: false,
+  showCell: (index) => set((state) => ({ cells: updateCell(index, state.cells, state.isFinished) })),
+  flagCell: (index) => set((state) => ({ cells: flagCell(index, state.cells) })),
   showEmptyCells: (index) => set((state) => ({ cells: getZeroCells(index, state.cells) })),
-  reset: () => set(() => ({ cells: getCells()})),
+  reset: () => set(() => ({ cells: getCells(), isFinished: false })),
+  handleFinish: () => set(() => ({ isFinished: true }))
 }))
