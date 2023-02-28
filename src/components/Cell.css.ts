@@ -20,8 +20,8 @@ export const CellContainer = styled.div<{ isHidden: boolean, isFlagged: boolean,
 `
 
 export const StyledCell = styled.button<{ isHidden: boolean, isFlagged: boolean, isMine: boolean, isClickedMine: boolean }>`
-  height: 45px;
-  width: 45px;
+  height: 43px;
+  width: 43px;
   border: none;
   background: ${({ isHidden, isFlagged, isMine, isClickedMine }) => {
     if (isFlagged) {

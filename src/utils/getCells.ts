@@ -24,7 +24,7 @@ export const getCells = () => {
   const cellsArr = makeArr();
 
   // Mines
-  const mines = getRandomRange(0, 100, 14);
+  const mines = getRandomRange(0, 100, 15);
 
   // Add mines to cells
   mines.forEach((mine) => {

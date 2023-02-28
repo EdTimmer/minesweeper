@@ -12,6 +12,7 @@ const Cell = ({ index, isHidden, isMine, isFlagged, mineCount }: CellProps) => {
   const showEmptyCells = useStore((state) => state.showEmptyCells);
   const isFinished = useStore((state) => state.isFinished);
   const handleFinish = useStore((state) => state.handleFinish);
+  // const mineCount = useStore((state) => state.mineCount);
 
   const [isClickedMine, setIsClickedMine] = useState(false);
   console.log('isFinished', isFinished);
