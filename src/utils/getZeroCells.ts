@@ -22,12 +22,12 @@ export const getZeroCells = (index: number, cellsArr: CellProps[]) => {
     const indBottomRight = index + numOfColumns + 1;
 
     const buildZerosArr = (index: number, cellsArr: CellProps[]) => {
-      if (cellsArr[index].mineCount === 0) {
+      if (cellsArr[index].adjacentMineCount === 0) {
         zerosArr.push(index);
       }
     }
 
-    if (cellsArr[index].mineCount === 0 && !cellsArr[index].isMine) {
+    if (cellsArr[index].adjacentMineCount === 0 && !cellsArr[index].isMine) {
       newArr[index].isCheckedForZeros = true;
       // top left
       if (isRowAbove && isColumnToLeft && !cellsArr[indTopLeft]?.isMine) {
@@ -81,7 +81,7 @@ export const getZeroCells = (index: number, cellsArr: CellProps[]) => {
     const arrEl = cycleArr.pop();
     if (arrEl && !newArr[arrEl].isCheckedForZeros) {
       getZeroCells(arrEl, newArr);
-    }    
+    }
   }
 
   return newArr;

@@ -14,7 +14,7 @@ export const getCells = () => {
           isHidden: true,
           isMine: false,
           isFlagged: false,
-          mineCount: 0,
+          adjacentMineCount: 0,
           isCheckedForZeros: false,
         });
       }
@@ -74,7 +74,7 @@ export const getCells = () => {
       count++;
     }
 
-    cell.mineCount = count;
+    cell.adjacentMineCount = count;
     return cell;
   })
 
