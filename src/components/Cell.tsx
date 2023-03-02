@@ -4,6 +4,7 @@ import { CellContainer, StyledCell } from './Cell.css';
 import flag from '../icons/flag.png';
 import mineBlack from '../icons/mine-black.png';
 import mineColors from '../icons/mine-colors.png';
+import wrongGuessIcon from '../icons/wrong-guess2.png';
 
 const Cell = ({
   index,
@@ -86,7 +87,15 @@ const Cell = ({
         {!isMine && !isHidden && adjacentMineCount !== 0 && !isFlagged && (
           <div>{adjacentMineCount}</div>
         )}
-        {isFlagged && <img src={flag} width={30} height={30} alt="flag" />}
+        {isFlagged && !isFinished && (
+          <img src={flag} width={30} height={30} alt="flag" />
+        )}
+        {isFinished && isFlagged && !isMine && (
+          <img src={wrongGuessIcon} width={30} height={30} alt="wrong" />
+        )}
+        {isFinished && isFlagged && isMine && (
+          <img src={flag} width={30} height={30} alt="flag" />
+        )}
       </StyledCell>
     </CellContainer>
   );

@@ -15,8 +15,7 @@ function App() {
   const reset = useStore((state) => state.reset);
   const isVictory = useStore((state) => state.isVictory);
   const isFinished = useStore((state) => state.isFinished);
-  
-  console.log('isVictory', isVictory);
+
   const getMessage = () => {
     if (isVictory) {
       return 'YOU WIN!'
