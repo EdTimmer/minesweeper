@@ -9,6 +9,15 @@ export const BannerWrapper = styled.div<{ isFinished: boolean, isVictory: boolea
   margin-bottom: 40px;
   font-family: 'Press Start 2P', cursive;
   color: ${Colors.red};
+  color: ${({ isFinished, isVictory }) => {
+    if (isFinished && !isVictory) {
+      return `${Colors.red}`;
+    } else if (isFinished && isVictory) {
+      return `${Colors.purple}`;
+    } else {
+      return `${Colors.blue}`;
+    }
+  }};
   display: grid;
   place-items: center;
 `;
