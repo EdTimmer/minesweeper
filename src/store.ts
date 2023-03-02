@@ -10,20 +10,20 @@ interface MinesweeperState {
   totalMineCount: number;
   correctCount: number;
   adjacentMineCount: number;
+  isVictory: boolean;
   showCell: (index: number) => void;
   flagCell: (index: number) => void;
+  handleExplode: (index: number) => void;
   removeFlag: (index: number) => void;
   showEmptyCells: (index: number) => void;
   reset: () => void;
   handleFinish: () => void;
   incrementCorrectCount: () => void;
   decrementCorrectCount: () => void;
-  isVictory: boolean;
   checkIfVictory: () => void;
 }
 
 const updateCell = (index: number, arr: CellProps[], isFinished: boolean) => {
-
   const newArr = [...arr];
   if (newArr[index].isMine && !newArr[index].isFlagged && isFinished) {
     newArr.forEach(cell => {
@@ -57,6 +57,12 @@ const checkForWin = (mineCount: number, correctCount: number) => {
   return false;
 }
 
+const handleExplodeHelper = (index: number, arr: CellProps[]) => {
+  const newArr = [...arr];
+  newArr[index].isExplodedMine = true;
+  return newArr;  
+}
+
 export const useStore = create<MinesweeperState>((set) => ({
   cells: getCells(),
   isFinished: false,
@@ -72,5 +78,6 @@ export const useStore = create<MinesweeperState>((set) => ({
   incrementCorrectCount: () => set((state) => ({ correctCount: state.correctCount + 1 })),
   decrementCorrectCount: () => set((state) => ({ correctCount: state.correctCount - 1 })),
   isVictory: false,
-  checkIfVictory: () => set((state) => ({ isVictory: checkForWin(state.totalMineCount, state.correctCount), isFinished: checkForWin(state.totalMineCount, state.correctCount) }))
+  checkIfVictory: () => set((state) => ({ isVictory: checkForWin(state.totalMineCount, state.correctCount), isFinished: checkForWin(state.totalMineCount, state.correctCount) })),
+  handleExplode: (index) => set((state) => ({ cells: handleExplodeHelper(index, state.cells) })),
 }))

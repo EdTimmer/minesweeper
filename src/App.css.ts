@@ -7,6 +7,7 @@ export const Container = styled.div`
   background: ${Colors.green};
   display: grid;
   place-items: center;
+  font-size: 16px;
 `;
 
 export const CellsWrapper = styled.div`
@@ -17,13 +18,13 @@ export const CellsWrapper = styled.div`
 `
 
 export const StyledButton = styled.button`
-  width: 100px;
+  width: 120px;
   height: 50px;
   background: ${Colors.yellow};
   margin-top: 40px;
-  font-family: 'Press Start 2P', cursive;
   color: ${Colors.red};
   border: 3px solid rgba(189, 195, 199, 1);
+  font-size: 16px;
 `;
 
 export const CenterContainer = styled.div`

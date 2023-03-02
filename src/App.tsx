@@ -1,5 +1,6 @@
 import './App.css';
 import Cell from './components/Cell';
+import Banner from './components/Banner';
 import {
   Container,
   CellsWrapper,
@@ -12,15 +13,24 @@ import { CellProps } from './types';
 function App() {
   const cells = useStore((state) => state.cells);
   const reset = useStore((state) => state.reset);
-  const correctCount = useStore((state) => state.correctCount);
   const isVictory = useStore((state) => state.isVictory);
+  const isFinished = useStore((state) => state.isFinished);
   
   console.log('isVictory', isVictory);
+  const getMessage = () => {
+    if (isVictory) {
+      return 'YOU WIN!'
+    } else if (isFinished) {
+      return 'YOU LOSE'
+    } else {
+      return 'MINESWEEPER'
+    }
+  }
 
   return (
     <Container>
       <CenterContainer>
-        {isVictory && <div>VICTORY!</div>}
+        <Banner message={getMessage()} />
         <CellsWrapper>
           {cells.map((cell: CellProps, index: number) => {
             return (
@@ -34,6 +44,7 @@ function App() {
                 isFlagged={cell.isFlagged}
                 adjacentMineCount={cell.adjacentMineCount}
                 isCheckedForZeros={cell.isCheckedForZeros}
+                isExplodedMine={cell.isExplodedMine}
               />
             );
           })}

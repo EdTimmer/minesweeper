@@ -4,7 +4,6 @@ import { CellContainer, StyledCell } from './Cell.css';
 import flag from '../icons/flag.png';
 import mineBlack from '../icons/mine-black.png';
 import mineColors from '../icons/mine-colors.png';
-import { useState } from 'react';
 
 const Cell = ({
   index,
@@ -12,6 +11,7 @@ const Cell = ({
   isMine,
   isFlagged,
   adjacentMineCount,
+  isExplodedMine,
 }: CellProps) => {
   const showCell = useStore((state) => state.showCell);
   const flagCell = useStore((state) => state.flagCell);
@@ -26,24 +26,22 @@ const Cell = ({
   );
   const removeFlag = useStore((state) => state.removeFlag);
   const checkIfVictory = useStore((state) => state.checkIfVictory);
-
-  const [isClickedMine, setIsClickedMine] = useState(false);
+  const handleExplode = useStore((state) => state.handleExplode);
 
   const handleLeftClick = () => {
     if (isFinished) {
       return;
     }
-    if (isMine && !isFlagged && !isClickedMine) {
-      setIsClickedMine(true);
+    if (isMine && !isFlagged && !isExplodedMine) {
+      handleExplode(index);
       handleFinish();
     }
     if (isFlagged) {
       return;
     }
-    // if (!isFinished) {
+
     showCell(index);
     showEmptyCells(index);
-    // }
   };
 
   const handleRightClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -51,7 +49,7 @@ const Cell = ({
     if (isFinished) {
       return;
     }
-    if (isHidden && !isClickedMine && !isFlagged) {
+    if (isHidden && !isExplodedMine && !isFlagged) {
       flagCell(index);
       if (isMine) {
         incrementCorrectCount();
@@ -72,13 +70,13 @@ const Cell = ({
       isHidden={isHidden}
       isFlagged={isFlagged}
       isMine={isMine}
-      isClickedMine={isClickedMine || false}
+      isExplodedMine={isExplodedMine || false}
     >
       <StyledCell
         isHidden={isHidden}
         isFlagged={isFlagged}
         isMine={isMine}
-        isClickedMine={isClickedMine || false}
+        isExplodedMine={isExplodedMine || false}
         onClick={handleLeftClick}
         onContextMenu={(e) => handleRightClick(e)}
       >

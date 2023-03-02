@@ -16,6 +16,7 @@ export const getCells = () => {
           isFlagged: false,
           adjacentMineCount: 0,
           isCheckedForZeros: false,
+          isExplodedMine: false,
         });
       }
     }
