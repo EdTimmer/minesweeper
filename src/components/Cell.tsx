@@ -72,14 +72,15 @@ const Cell = ({
       isFlagged={isFlagged}
       isMine={isMine}
       isExplodedMine={isExplodedMine || false}
+      onClick={handleLeftClick}
+      onContextMenu={(e) => handleRightClick(e)}
     >
       <StyledCell
         isHidden={isHidden}
         isFlagged={isFlagged}
         isMine={isMine}
         isExplodedMine={isExplodedMine || false}
-        onClick={handleLeftClick}
-        onContextMenu={(e) => handleRightClick(e)}
+        adjacentMineCount={adjacentMineCount}
       >
         {isMine && !isHidden && !isFlagged && (
           <img src={mineBlack} width={28} height={28} alt="mine" />
