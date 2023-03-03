@@ -26,8 +26,17 @@ export const StyledButton = styled.button`
   background: ${Colors.yellow};
   margin-top: 40px;
   color: ${Colors.blue};
-  border: 3px solid rgba(189, 195, 199, 1);
+  border: 3px solid ${Colors.blue};
   font-size: 16px;
+  &:hover {
+    border-color: ${Colors.purple};
+    color: ${Colors.purple}; 
+  }
+  &:active {
+    border-color: ${Colors.yellow};
+    background: ${Colors.purple};
+    color: ${Colors.yellow};
+  }
 `;
 
 export const CenterContainer = styled.div`
